@@ -335,6 +335,19 @@ struct {
   &sercom1, SERCOM1, SERCOM1_DMAC_ID_TX, MOSI, SPI_PAD_0_SCK_1, PIO_SERCOM,
 #endif // end Arduino NANO 33 IoT
 
+#define ARDUINO_MKRZERO 1
+#if defined(ARDUINO_MKRZERO)
+
+  // Serial1 (TX/RX) is on SERCOM0, do not use
+  // SERCOM1,2 are 100% in the clear
+  // I2C is on SERCOM3, do not use
+  // SPI is on SERCOM4, but OK to use (as SPI MOSI)
+  // Serial5 is on SERCOM5, but OK to use (Arduino core detritus)
+  &sercom1, SERCOM1, SERCOM1_DMAC_ID_TX,   10, SPI_PAD_3_SCK_1, PIO_SERCOM,
+  &sercom4, SERCOM4, SERCOM4_DMAC_ID_TX,    4, SPI_PAD_2_SCK_3, PIO_SERCOM_ALT,
+  &sercom5, SERCOM5, SERCOM5_DMAC_ID_TX,    6, SPI_PAD_2_SCK_3, PIO_SERCOM,
+#endif
+
 }; // end sercomTable[]
 
 #define N_SERCOMS (sizeof sercomTable / sizeof sercomTable[0])
